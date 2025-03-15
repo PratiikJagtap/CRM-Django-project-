@@ -1,0 +1,16 @@
+{% extends 'Base.html' %}
+
+{% block content %}
+
+<div class="d-flex justify-content-center">
+    <div class="col-md-6 col-sm-8 col-10 mt-0 pt-3">
+        <h1 class="text-center"> Add Record </h1>
+        <form method="POST" accept="{% url 'add_record' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit" class="btn btn-secondary">Add Record</button>
+        </form>
+        </div>
+    </div>
+{% endblock %}

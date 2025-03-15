@@ -1,28 +1,73 @@
 {% extends 'Base.html' %}
 
-
-
 {% block content %}
 
+{% if user.is_authenticated %}
 
-<div class="column-md-6 "> 
-{% if user.is_authenticated  %}
-<h1>Logged In</h1>
+<h1 class="text-center"> Records </h1>
+
+<div class="container-fluid d-flex justify-content-center">
+    <div class="table-responsive w-auto mw-100 overflow-x-auto" style="min-width: 1200px;">
+        <table class="table table-striped table-sm table-bordered">
+            <thead class="border border-2">
+
+                <tr>
+                    <th scope="col" class="border border-2 text-center">ID</th>
+                    <th scope="col" class="border border-2 text-center">Name</th>
+                    <th scope="col" class="border border-2 text-center">Email</th>
+                    <th scope="col" class="border border-2 text-center">Phone</th>
+                    <th scope="col" class="border border-2 text-center">Address</th>
+                    <th scope="col" class="border border-2 text-center">City</th>
+                    <th scope="col" class="border border-2 text-center">State</th>
+                    <th scope="col" class="border border-2 text-center">Zipcode</th>
+                    <th scope="col" class="border border-2 text-center">Created At</th>
+                    <th scope="col" class="border border-2 text-center">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if records %}
+                {% for record in records %}
+                <tr>
+                    <td class="border border-2 text-center text-nowrap">{{ record.id }}</td>
+                    <td class="border border-2 text-center text-nowrap">{{ record.first_name }} {{ record.last_name }}</td>
+                    <td class="border border-2 text-center text-nowrap">{{ record.email }}</td>
+                    <td class="border border-2 text-center text-nowrap">{{ record.phone }}</td>
+                    <td class="border border-2 text-center text-nowrap">{{ record.address }}</td>
+                    <td class="border border-2 text-center text-nowrap">{{ record.city }}</td>
+                    <td class="border border-2 text-center text-nowrap">{{ record.state }}</td>
+                    <td class="border border-2 text-center text-nowrap">{{ record.zipcode }}</td>
+                    <td class="border border-2 text-center text-nowrap">{{ record.created_at }}</td>
+                    <td class="border border-2 text-center">
+                        <a href="{% url 'record' record.id %}" class="btn btn-secondary btn-sm px-2 py-1">Click</a>
+                    </td>
+                </tr>
+                {% endfor %}
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
 {% else %}
-<h1>Login</h1>
-<form method="POST" action="{% url 'home' %}">
-    {% csrf_token %}
+<div class="container-fluid d-flex justify-content-center">
+    <div class="col-md-6 col-sm-8 col-10 mt-0 pt-0">
+        <h1 class="text-center">Login</h1>
         <br/>
-        <div class="mb-3">
-          <input type="text" class="form-control" name="username" placeholder="username">
-        </div>
-        <div class="mb-3">
-          <input type="password" class="form-control" name="password" placeholder="Password">
-        </div>
-        <button type="submit" class="btn btn-secondary">login</button>
-</form>
-</div>    
+        <form method="POST" action="{% url 'home' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <input type="text" class="form-control border border-2" name="username" placeholder="Username">
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control border border-2" name="password" placeholder="Password">
+            </div>
+            <div class="text-center">
+                <p>If you are new here, first <a href="{% url 'register' %}">Register</a></p>
+            </div>
+            <button type="submit" class="btn btn-secondary w-100">Login</button>
+        </form>
+    </div>
+</div>
 {% endif %}
-
 
 {% endblock %}
